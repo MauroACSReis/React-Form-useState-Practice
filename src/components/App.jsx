@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 function App() {
+  const [isMousedOver, setMouseOver] = useState(false);
   const [contact, setContact] = useState({
     fName: "",
     lName: "",
@@ -10,7 +11,7 @@ function App() {
   function handleChange(event) {
     const { name, value } = event.target;
 
-    setContact(prevValue => {
+    setContact((prevValue) => {
       if (name === "fName") {
         return {
           fName: value,
@@ -33,6 +34,14 @@ function App() {
     });
   }
 
+  function handleMouseOver() {
+    setMouseOver(true);
+  }
+
+  function handleMouseOut() {
+    setMouseOver(false);
+  }
+
   return (
     <div className="container">
       <h1>
@@ -42,23 +51,31 @@ function App() {
       <form>
         <input
           onChange={handleChange}
-          value={contact.fName}
           name="fName"
+          value={contact.fName}
           placeholder="First Name"
         />
         <input
           onChange={handleChange}
-          value={contact.lName}
           name="lName"
+          value={contact.lName}
           placeholder="Last Name"
         />
         <input
           onChange={handleChange}
-          value={contact.email}
           name="email"
+          value={contact.email}
           placeholder="Email"
         />
-        <button>Submit</button>
+        <button
+          type="submit"
+          style={{ backgroundColor: isMousedOver ? "black" : "white" }}
+          S
+          onMouseOver={handleMouseOver}
+          onMouseOut={handleMouseOut}
+        >
+          Submit
+        </button>
       </form>
     </div>
   );
