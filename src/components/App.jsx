@@ -1,48 +1,64 @@
 import React, { useState } from "react";
 
 function App() {
-  const [name, setName] = useState("");
-  const [headingText, setHeadingText] = useState("");
-  const [isMousedOver, setMouseOver] = useState(false);
+  const [contact, setContact] = useState({
+    fName: "",
+    lName: "",
+    email: ""
+  });
 
   function handleChange(event) {
-    console.log(event.target.value);
-    setName(event.target.value);
-  }
+    const { name, value } = event.target;
 
-  function handleClick(event) {
-    setHeadingText(name);
-
-    event.preventDefault();
-  }
-
-  function handleMouseOver() {
-    setMouseOver(true);
-  }
-
-  function handleMouseOut() {
-    setMouseOver(false);
+    setContact(prevValue => {
+      if (name === "fName") {
+        return {
+          fName: value,
+          lName: prevValue.lName,
+          email: prevValue.email
+        };
+      } else if (name === "lName") {
+        return {
+          fName: prevValue.fName,
+          lName: value,
+          email: prevValue.email
+        };
+      } else if (name === "email") {
+        return {
+          fName: prevValue.fName,
+          lName: prevValue.lName,
+          email: value
+        };
+      }
+    });
   }
 
   return (
     <div className="container">
-      <h1>Hello {headingText}</h1>
-      <form onSubmit={handleClick}>
+      <h1>
+        Hello {contact.fName} {contact.lName}
+      </h1>
+      <p>{contact.email}</p>
+      <form>
         <input
-          type="text"
-          placeholder="What's your name?"
           onChange={handleChange}
-          value={name}
+          value={contact.fName}
+          name="fName"
+          placeholder="First Name"
         />
-        <button
-          type="submit"
-          style={{ backgroundColor: isMousedOver ? "black" : "white" }}
-          S
-          onMouseOver={handleMouseOver}
-          onMouseOut={handleMouseOut}
-        >
-          Submit
-        </button>
+        <input
+          onChange={handleChange}
+          value={contact.lName}
+          name="lName"
+          placeholder="Last Name"
+        />
+        <input
+          onChange={handleChange}
+          value={contact.email}
+          name="email"
+          placeholder="Email"
+        />
+        <button>Submit</button>
       </form>
     </div>
   );
